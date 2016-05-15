@@ -58,12 +58,36 @@ public class RecipeAdapter extends BaseAdapter
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
-        View rowView = mInflater.inflate(R.layout.list_item_recipe, parent, false);
+        /*View rowView = mInflater.inflate(R.layout.list_item_recipe, parent, false);
 
         TextView titleTextView = (TextView) rowView.findViewById(R.id.recipe_list_title);
         TextView subtitleTextView = (TextView) rowView.findViewById(R.id.recipe_list_subtitle);
         TextView detailTextView = (TextView) rowView.findViewById(R.id.recipe_list_detail);
-        ImageView thumbnailImageView = (ImageView) rowView.findViewById(R.id.recipe_list_thumbnail);
+        ImageView thumbnailImageView = (ImageView) rowView.findViewById(R.id.recipe_list_thumbnail);*/
+
+        ViewHolder holder;
+
+        if(convertView == null)
+        {
+            convertView = mInflater.inflate(R.layout.list_item_recipe, parent, false);
+
+            holder = new ViewHolder();
+            holder.thumbnailImageView = (ImageView) convertView.findViewById(R.id.recipe_list_thumbnail);
+            holder.titleTextView = (TextView) convertView.findViewById(R.id.recipe_list_title);
+            holder.subtitleTextView = (TextView) convertView.findViewById(R.id.recipe_list_subtitle);
+            holder.detailTextView = (TextView) convertView.findViewById(R.id.recipe_list_detail);
+
+            convertView.setTag(holder);
+        }
+        else
+        {
+            holder = (ViewHolder) convertView.getTag();
+        }
+
+        TextView titleTextView = holder.titleTextView;
+        TextView subtitleTextView = holder.subtitleTextView;
+        TextView detailTextView = holder.detailTextView;
+        ImageView thumbnailImageView = holder.thumbnailImageView;
 
         Recipe recipe = (Recipe) getItem(position);
 
@@ -84,6 +108,17 @@ public class RecipeAdapter extends BaseAdapter
 
         detailTextView.setTextColor(ContextCompat.getColor(mContext, LABEL_COLORS.get(recipe.label)));
 
-        return rowView;
+        return convertView;
+    }
+
+    public static class ViewHolder
+    {
+        public TextView titleTextView;
+        public TextView subtitleTextView;
+        public TextView detailTextView;
+        public ImageView thumbnailImageView;
     }
 }
+
+
+
